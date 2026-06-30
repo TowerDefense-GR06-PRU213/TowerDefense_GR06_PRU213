@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/Game_Map3.unity
     guid: db9f3bd8568375b4483f0973bee201dd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/Game_Map4.unity
     guid: 9702d22f3752a0649b6e3d2f572c6a96
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/Game_Map5.unity
     guid: baa841a32614710478d7b7974801508a
   - enabled: 1

@@ -50,7 +50,17 @@ public class GameManager_Lv3 : MonoBehaviour
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
         // Kích hoạt sự kiện lần đầu để UI cập nhật số máu
-        _lives= LevelManager.Instance.CurrentLevel.startingLives;
+        // Fix: Kiểm tra null và dùng giá trị mặc định nếu LevelManager không có
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            _lives = LevelManager.Instance.CurrentLevel.startingLives;
+        }
+        else
+        {
+            Debug.LogWarning("[GameManager_Lv3] LevelManager hoặc CurrentLevel null, dùng giá trị mặc định: 5 lives");
+            _lives = 5; // Giá trị mặc định: 5 lives
+        }
+        
         OnLivesChanged?.Invoke(_lives);
 
         // Đảm bảo thời gian chạy bình thường khi bắt đầu

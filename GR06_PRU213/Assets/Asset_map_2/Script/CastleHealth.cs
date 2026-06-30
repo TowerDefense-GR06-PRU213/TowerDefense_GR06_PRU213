@@ -12,7 +12,17 @@ public class CastleHealth : MonoBehaviour
 
     void Start()
     {
-        lives = LevelManager.Instance.CurrentLevel.startingLives;
+        // Fix: Thêm null check và dùng giá trị mặc định
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            lives = LevelManager.Instance.CurrentLevel.startingLives;
+        }
+        else
+        {
+            Debug.LogWarning("[CastleHealth] LevelManager null, dùng giá trị mặc định: 5 lives");
+            lives = 5; // Mặc định 5 lives
+        }
+        
         if (healthBar != null)
         {
             healthBar.minValue = 0;

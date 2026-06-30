@@ -64,8 +64,17 @@ public class CurrencyManager_Lv3 : MonoBehaviour
 
     private void Start()
     {
-        // --- THAY ĐỔI: Thiết lập vàng ban đầu là 320 ---
-        CurrentGold = LevelManager.Instance.CurrentLevel.startingResources;
+        // --- THAY ĐỔI: Thiết lập vàng ban đầu ---
+        // Fix: Kiểm tra null và dùng giá trị mặc định nếu LevelManager không có
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            CurrentGold = LevelManager.Instance.CurrentLevel.startingResources;
+        }
+        else
+        {
+            Debug.LogWarning("[CurrencyManager_Lv3] LevelManager hoặc CurrentLevel null, dùng giá trị mặc định: 500 gold");
+            CurrentGold = 500; // Giá trị mặc định: 500 gold
+        }
     }
 
     /// <summary>

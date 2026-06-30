@@ -30,7 +30,8 @@ public class Path_Map1 : MonoBehaviour
     {
         if (waypoints == null || waypoints.Length == 0) return;
 
-        Gizmos.color = Color.yellow;
+        // Màu nâu đất để phù hợp với đường mòn trong rừng
+        Gizmos.color = new Color(0.55f, 0.35f, 0.2f); // Màu nâu đất
         for (int i = 0; i < waypoints.Length - 1; i++)
         {
             if (waypoints[i] != null && waypoints[i + 1] != null)

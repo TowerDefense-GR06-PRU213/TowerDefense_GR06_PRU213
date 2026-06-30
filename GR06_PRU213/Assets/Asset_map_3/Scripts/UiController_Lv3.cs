@@ -297,17 +297,30 @@ public class UiController_Lv3 : MonoBehaviour
         GameManager_Lv3.Instance.SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
     }
+    
     public void LoadNextLevel()
     {
-        PlayClickSound(); // Thêm vào đây
+        PlayClickSound();
+        
+        // Fix: Thêm null check và fallback
         var levelManager = LevelManager.Instance;
-        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
-        int nextIndex = currentIndex + 1;
-        if (nextIndex < levelManager.allLevels.Length)
+        if (levelManager != null && levelManager.allLevels != null && levelManager.CurrentLevel != null)
         {
-            missionCompletePanel.SetActive(false);
-            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+            int currentIndex = System.Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
+            int nextIndex = currentIndex + 1;
+            if (nextIndex < levelManager.allLevels.Length)
+            {
+                missionCompletePanel.SetActive(false);
+                levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+                return;
+            }
         }
+        
+        // Fallback: Nếu không có LevelManager, load scene tiếp theo theo index
+        Debug.LogWarning("[UiController_Lv3] LevelManager null, loading next scene by index");
+        missionCompletePanel.SetActive(false);
+        int currentSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
     public void EnterEndlessMode()

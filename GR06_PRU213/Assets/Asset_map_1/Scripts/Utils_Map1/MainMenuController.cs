@@ -30,7 +30,7 @@ public class MainMenuController : MonoBehaviour
     public void StartNewGame()
     {
         LevelManager.Instance.LoadLevel(LevelManager.Instance.allLevels[0]);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Game_Map1"); // Load Map 1 theo tên scene
     }
 
     public void QuitGame()

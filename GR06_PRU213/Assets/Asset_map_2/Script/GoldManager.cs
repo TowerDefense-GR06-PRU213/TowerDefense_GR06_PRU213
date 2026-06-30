@@ -9,7 +9,7 @@ public class GoldManager : MonoBehaviour
     public TextMeshProUGUI coinText;  // đổi tên từ goldText → coinText
 
     [Header("Thiết lập vàng")]
-    public int startingGold = 300;
+    public int startingGold = 500; // Mặc định 500 gold
     public int currentGold;
 
     private void Awake()
@@ -19,13 +19,15 @@ public class GoldManager : MonoBehaviour
 
     void Start()
     {
+        // Fix: Thêm null check và dùng giá trị mặc định
         if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
         {
             currentGold = LevelManager.Instance.CurrentLevel.startingResources;
         }
         else
         {
-            currentGold = startingGold; // 🔹 fallback khi không có LevelManager
+            Debug.LogWarning("[GoldManager] LevelManager null, dùng giá trị mặc định: 500 gold");
+            currentGold = 500; // Mặc định 500 gold
         }
 
         UpdateGoldUI();

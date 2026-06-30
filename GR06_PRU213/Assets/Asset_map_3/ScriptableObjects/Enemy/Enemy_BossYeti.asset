@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c015880d0eb26540865fd086c6db893, type: 3}
   m_Name: Enemy_BossYeti
   m_EditorClassIdentifier: 
-  lives: 250
+  lives: 1000
   damage: 5
   speed: 0.6
   type: 4

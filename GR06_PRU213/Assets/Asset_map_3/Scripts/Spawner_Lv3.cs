@@ -169,20 +169,24 @@ public class Spawner_Lv3 : MonoBehaviour
 
     private IEnumerator SpawnWaves()
     {
+        // Fix: Lấy wavesToWin với giá trị mặc định nếu LevelManager null
+        int wavesToWin = 5; // Mặc định 5 wave để thắng
+        
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            wavesToWin = LevelManager.Instance.CurrentLevel.wavesToWin;
+        }
+        else
+        {
+            Debug.LogWarning("[Spawner_Lv3] LevelManager null, dùng giá trị mặc định: 5 waves để thắng");
+        }
+        
         while (true) // Lặp vô hạn
         {
-            if (LevelManager.Instance == null || LevelManager.Instance.CurrentLevel == null)
-            {
-                Debug.LogError("LevelManager hoặc CurrentLevel không được thiết lập!");
-                yield break;
-            }
-
-            var currentLevel = LevelManager.Instance.CurrentLevel;
-
             // --- 1. KIỂM TRA ĐIỀU KIỆN THẮNG (CHẾ ĐỘ THƯỜNG) ---
             if (!_isEndless &&
-                currentLevel.wavesToWin > 0 &&
-                _waveCounter > currentLevel.wavesToWin)
+                wavesToWin > 0 &&
+                _waveCounter > wavesToWin)
             {
                 Debug.Log("Đã hoàn thành tất cả các wave đã định sẵn, CHIẾN THẮNG!");
                 OnAllWavesCompleted?.Invoke(); // Hiển thị panel "Mission Complete" (và dừng Time.timeScale)
@@ -204,7 +208,7 @@ public class Spawner_Lv3 : MonoBehaviour
             // --- 2. XỬ LÝ LẶP WAVE (ENDLESS MODE VÀ CHẾ ĐỘ THƯỜNG) ---
             if (_currentWaveIndex >= waves.Length)
             {
-                if (_isEndless || currentLevel.wavesToWin <= 0)
+                if (_isEndless || wavesToWin <= 0)
                 {
                     Debug.Log($"Endless Mode: Bắt đầu Vòng lặp Wave {_waveCounter / waves.Length + 1}!");
                     _currentWaveIndex = 0;

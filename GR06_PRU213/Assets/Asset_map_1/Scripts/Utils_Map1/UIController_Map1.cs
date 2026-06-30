@@ -313,14 +313,26 @@ public class UIController_Map1 : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        // Fix: Load trực tiếp Map 2 sau khi thắng Map 1
+        GameManager_Map1.Instance.SetTimeScale(1f); // Reset time scale
+        missionCompletePanel.SetActive(false);
+        
+        // Thử load qua LevelManager trước
         var levelManager = LevelManager.Instance;
-        int currentIndex = Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
-        int nextIndex = currentIndex + 1;
-        if (nextIndex < levelManager.allLevels.Length)
+        if (levelManager != null && levelManager.allLevels != null && levelManager.allLevels.Length > 0)
         {
-            missionCompletePanel.SetActive(false);
-            levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+            int currentIndex = System.Array.IndexOf(levelManager.allLevels, levelManager.CurrentLevel);
+            int nextIndex = currentIndex + 1;
+            if (nextIndex < levelManager.allLevels.Length)
+            {
+                levelManager.LoadLevel(levelManager.allLevels[nextIndex]);
+                return;
+            }
         }
+        
+        // Fallback: Load trực tiếp Map 2 nếu LevelManager không hoạt động
+        Debug.Log("[UIController_Map1] Loading Game_Map2 directly");
+        SceneManager.LoadScene("Game_Map2");
     }
 
 
