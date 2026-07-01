@@ -73,40 +73,76 @@ Mỗi map có cơ chế spawn riêng:
 ## MAP 2 - SPAWN PATTERNS
 
 ### Cấu trúc
-- **File config**: `Assets/Asset_map_2/Prefab/EnemyWaveSpawner.prefab` (cấu hình wave trong prefab)
+- **File config**: `Assets/Scene/Game_Map2.unity` (overrides prefab `EnemyWaveSpawner.prefab`)
 - **Script logic**: `EnemyWaveSpawner.cs`
-- **Số wave**: Được cấu hình trong mảng `waves[]` trong prefab
-- **Thời gian giữa các wave**: `timeBetweenWaves = 5f`
+- **Số wave**: 5 waves (được cấu hình trong scene)
+- **Thời gian giữa các wave**: `timeBetweenWaves = 3f`
 
 ### Loại quái Map 2
-- **Orc** - Quái cơ bản
-- **Zombie** - Quái cơ bản
-- **Golem** - Tự buff tốc độ khi bị đánh
-- **Tiny Golem** - Buff đồng đội (NGUY HIỂM NHẤT)
-- **Valkyrie** - Có khiên giảm sát thương
+- **Orc** - Quái cơ bản, không có skill
+- **Zombie** - Quái cơ bản, không có skill
+- **Golem** - Tự buff tốc độ x1.5 trong 2s khi bị đánh (cooldown 6s)
+- **Tiny Golem** - Buff đồng đội AOE +40%/+65% speed (cooldown 6s) - **NGUY HIỂM NHẤT**
+- **Valkyrie** - Có khiên giảm 20% sát thương trong 2.5s khi bị đánh (cooldown 6s)
 
-### Cấu trúc wave Map 2
+### Chi tiết từng wave
 
-Mỗi wave có:
-```csharp
-- waveName: Tên wave
-- enemyGroups[]: Danh sách nhóm quái
-  * enemyPrefab: Prefab của quái
-  * count: Số lượng
-  * spawnDelay: Thời gian giữa mỗi con (giây)
-  * path: PathType.A hoặc PathType.B
-- reward: Tiền thưởng khi hoàn thành wave
-```
+#### **Wave 1**
+- **Nhóm 1**: 10 Orcs trên Path A (spawn mỗi 2s)
+- **Nhóm 2**: 6 Valkyries trên Path B (spawn mỗi 2s)
+- **Reward**: 0 gold
+- **Tổng**: 16 quái
+
+#### **Wave 2**
+- **Nhóm 1**: 12 Golems trên Path A (spawn mỗi 2s)
+- **Nhóm 2**: 8 Zombies trên Path A (spawn mỗi 2s)
+- **Reward**: 0 gold
+- **Tổng**: 20 quái
+
+#### **Wave 3** (Mixed Wave - Nhiều loại quái)
+- **Nhóm 1**: 4 Zombies trên Path A (spawn mỗi 3s)
+- **Nhóm 2**: **1 Tiny Golem** trên Path B (spawn sau 3s) - NGUY HIỂM!
+- **Nhóm 3**: 6 Orcs trên Path A (spawn mỗi 3s)
+- **Nhóm 4**: 3 Valkyries trên Path B (spawn mỗi 3s)
+- **Nhóm 5**: 5 Golems trên Path A (spawn mỗi 3s)
+- **Reward**: 0 gold
+- **Tổng**: 19 quái (bao gồm 1 Tiny Golem rất nguy hiểm)
+
+#### **Wave 4**
+- **Nhóm 1**: 6 Zombies trên Path B (spawn mỗi 3s)
+- **Nhóm 2**: 5 Valkyries trên Path A (spawn mỗi 3s)
+- **Nhóm 3**: 12 Orcs trên Path B (spawn mỗi 3s)
+- **Nhóm 4**: 8 Golems trên Path A (spawn mỗi 3s)
+- **Reward**: 0 gold
+- **Tổng**: 31 quái
+
+#### **Wave 5** (FINAL WAVE)
+- **Nhóm 1**: 5 Valkyries trên Path A (spawn mỗi 3s)
+- **Nhóm 2**: 6 Golems trên Path B (spawn mỗi 3s)
+- **Nhóm 3**: 6 Zombies trên Path A (spawn mỗi 3s)
+- **Nhóm 4**: **1 Tiny Golem** trên Path B (spawn sau 3s) - NGUY HIỂM!
+- **Nhóm 5**: 4 Zombies trên Path B (spawn mỗi 3s)
+- **Reward**: 0 gold
+- **Tổng**: 22 quái (bao gồm 1 Tiny Golem rất nguy hiểm)
 
 ### Đặc điểm spawn Map 2
 - Có **2 điểm spawn**: `spawnPointA` và `spawnPointB`
-- Mỗi nhóm quái được chỉ định đi path A hoặc path B
-- Spawn tuần tự từng nhóm trong wave
-- **Logic thắng**: Hoàn thành tất cả waves VÀ cổng (Gate) vẫn sống
-- **Reward system**: Mỗi wave cho tiền thưởng sau khi hoàn thành
+- Có **2 paths**: Path A và Path B
+- **Path assignment**:
+  - `path: 0` = Path A
+  - `path: 1` = Path B
+- Spawn **tuần tự** từng nhóm trong wave (nhóm 1 xong → nhóm 2 → ...)
+- Mỗi nhóm spawn hết quái trước khi chuyển sang nhóm tiếp theo
+- **Spawn delay**: 2s (Wave 1-2), 3s (Wave 3-5)
+- **Logic thắng**: Hoàn thành tất cả 5 waves VÀ cổng (Gate) vẫn sống
+- **Reward system**: Tất cả waves đều có reward = 0 gold (không thưởng)
 - Nếu cổng chết → Game Over ngay lập tức
+- **Không có Endless Mode**
 
-**LƯU Ý**: Chi tiết cụ thể từng wave cần kiểm tra trong Unity Editor (mở prefab `EnemyWaveSpawner`)
+### Lưu ý đặc biệt
+- **Wave 3 và Wave 5** có **Tiny Golem** - loại quái cực kỳ nguy hiểm vì buff tốc độ cho tất cả đồng đội xung quanh (+40% nếu máu > 50%, +65% nếu máu ≤ 50%)
+- Map 2 không có Boss nhưng có áp lực lớn từ **số lượng quái** (Wave 4 có tới 31 quái!)
+- Tất cả waves đều **không có reward gold**, chỉ dựa vào kill quái để lấy tiền
 
 ---
 

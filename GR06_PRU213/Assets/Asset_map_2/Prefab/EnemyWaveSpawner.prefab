@@ -47,6 +47,50 @@ MonoBehaviour:
   waves:
   - waveName: wave 1
     enemyGroups:
+    - enemyPrefab: {fileID: 4327039988643470479, guid: e9c1b4cf77daad346942c695a3e42f54, type: 3}
+      count: 10
+      spawnDelay: 1
+      path: 0
+    - enemyPrefab: {fileID: 914703322160911753, guid: eb3ed1aba6f880548b545dfd7c39b166, type: 3}
+      count: 10
+      spawnDelay: 1
+      path: 1
+    reward: 0
+  - waveName: wave 2
+    enemyGroups:
+    - enemyPrefab: {fileID: 209003419295513717, guid: d53a2d554f330f94a884eca9a1cc5bf5, type: 3}
+      count: 10
+      spawnDelay: 1
+      path: 0
+    - enemyPrefab: {fileID: 914703322160911753, guid: eb3ed1aba6f880548b545dfd7c39b166, type: 3}
+      count: 6
+      spawnDelay: 2
+      path: 1
+    reward: 0
+  - waveName: wave 3
+    enemyGroups:
+    - enemyPrefab: {fileID: 1170155525659391328, guid: 15aed19b8e7341f4094e947449e5badd, type: 3}
+      count: 15
+      spawnDelay: 1.5
+      path: 0
+    - enemyPrefab: {fileID: 914703322160911753, guid: eb3ed1aba6f880548b545dfd7c39b166, type: 3}
+      count: 10
+      spawnDelay: 1
+      path: 1
+    reward: 0
+  - waveName: wave 4
+    enemyGroups:
+    - enemyPrefab: {fileID: 5300794709205918962, guid: ad5728225d2d2544f89650ae0f39b244, type: 3}
+      count: 5
+      spawnDelay: 1
+      path: 0
+    - enemyPrefab: {fileID: 209003419295513717, guid: d53a2d554f330f94a884eca9a1cc5bf5, type: 3}
+      count: 15
+      spawnDelay: 1
+      path: 1
+    reward: 0
+  - waveName: wave 5
+    enemyGroups:
     - enemyPrefab: {fileID: 209003419295513717, guid: d53a2d554f330f94a884eca9a1cc5bf5, type: 3}
       count: 10
       spawnDelay: 2
@@ -58,4 +102,4 @@ MonoBehaviour:
     reward: 0
   spawnPointA: {fileID: 0}
   spawnPointB: {fileID: 0}
-  timeBetweenWaves: 3
+  timeBetweenWaves: 2
