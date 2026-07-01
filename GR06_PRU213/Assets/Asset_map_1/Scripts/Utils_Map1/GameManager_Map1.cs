@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -12,6 +12,7 @@ public class GameManager_Map1 : MonoBehaviour
     private int _lives = 5;
     private int _resources = 500;
     public int Resources => _resources;
+    public int Lives => _lives;
 
     private float _gameSpeed = 1f;
     public float GameSpeed => _gameSpeed;
@@ -25,6 +26,7 @@ public class GameManager_Map1 : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);   // thêm dòng này
         }
     }
 
@@ -107,7 +109,7 @@ public class GameManager_Map1 : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ResetGameState();
+        // Tạm tắt reset khi đổi scene
     }
 
 

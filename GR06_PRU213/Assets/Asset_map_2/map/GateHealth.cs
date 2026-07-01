@@ -18,7 +18,18 @@ public class GateHealth : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
+        // Nếu đi từ map trước qua thì lấy lives đã lưu
+        if (PlayerData.Instance != null && PlayerData.Instance.lives > 0)
+        {
+            currentHealth = PlayerData.Instance.lives;
+            Debug.Log("Đã lấy Lives từ PlayerData: " + currentHealth);
+        }
+        else
+        {
+            // Nếu chạy map riêng thì dùng mặc định
+            currentHealth = maxHealth;
+        }
+
         UpdateLiveText();
     }
 

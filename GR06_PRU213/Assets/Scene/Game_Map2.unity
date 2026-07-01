@@ -1245,9 +1245,9 @@ GameObject:
   - component: {fileID: 903007964}
   - component: {fileID: 903007968}
   - component: {fileID: 903007970}
-  - component: {fileID: 903007972}
   - component: {fileID: 903007974}
   - component: {fileID: 903007975}
+  - component: {fileID: 903007976}
   m_Layer: 0
   m_Name: Fortress gate
   m_TagString: Untagged
@@ -1484,24 +1484,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.86, y: 2.0605927}
   m_EdgeRadius: 0
---- !u!114 &903007972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903007963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 629426daff174a54cb6a6fa46c814224, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 0
-  liveText: {fileID: 2081696303}
-  gameOverUI: {fileID: 1371213724}
-  gateShake: {fileID: 0}
-  hitSound: {fileID: 903007975}
 --- !u!114 &903007974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,7 +1496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d793fc10b1909284c9b305bd29bb47dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gate: {fileID: 903007972}
+  gate: {fileID: 0}
   enemyTag: Enemy
   damagePerEnemy: 1
 --- !u!82 &903007975
@@ -1614,6 +1596,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &903007976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903007963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 629426daff174a54cb6a6fa46c814224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
+  currentHealth: 0
+  liveText: {fileID: 1167401722}
+  gameOverUI: {fileID: 5099729987549735318}
+  gateShake: {fileID: 0}
+  hitSound: {fileID: 0}
 --- !u!114 &950943396 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1839371209208792061, guid: 4d2c48fac38e1fb4ca5d7bfcb9b1218a, type: 3}
@@ -2012,6 +2012,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd0bfe029be5e654daf1a43a3c761e96, type: 3}
+--- !u!114 &1167401722 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7014020878155832337, guid: fd0bfe029be5e654daf1a43a3c761e96, type: 3}
+  m_PrefabInstance: {fileID: 1167401721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1263362535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2333,11 +2344,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
---- !u!1 &1371213724 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9170473416114048416, guid: 312b91f2b2044d548b8b8777e314e335, type: 3}
-  m_PrefabInstance: {fileID: 5099729987549735317}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1556285963 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8493862709634859939, guid: e516a6b5d2be15241b094e6d4be30669, type: 3}
@@ -2601,17 +2607,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4602238ed1d041241b2cab06fb9011c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2081696303 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7014020878155832337, guid: fd0bfe029be5e654daf1a43a3c761e96, type: 3}
-  m_PrefabInstance: {fileID: 1167401721}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2104973821
@@ -3326,6 +3321,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 312b91f2b2044d548b8b8777e314e335, type: 3}
+--- !u!1 &5099729987549735318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9170473416114048416, guid: 312b91f2b2044d548b8b8777e314e335, type: 3}
+  m_PrefabInstance: {fileID: 5099729987549735317}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5115242696044545476
 PrefabInstance:
   m_ObjectHideFlags: 0

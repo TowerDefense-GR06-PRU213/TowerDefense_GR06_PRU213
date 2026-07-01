@@ -350,7 +350,9 @@ public class UIController_Map1 : MonoBehaviour
         // Fix: Load trực tiếp Map 2 sau khi thắng Map 1
         GameManager_Map1.Instance.SetTimeScale(1f); // Reset time scale
         missionCompletePanel.SetActive(false);
-        
+
+        PlayerData.Instance.gold = GameManager_Map1.Instance.Resources;
+        PlayerData.Instance.lives = GameManager_Map1.Instance.Lives;
         // Thử load qua LevelManager trước
         var levelManager = LevelManager.Instance;
         if (levelManager != null && levelManager.allLevels != null && levelManager.allLevels.Length > 0)
