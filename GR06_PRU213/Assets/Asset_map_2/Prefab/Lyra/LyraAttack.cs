@@ -13,6 +13,17 @@ public class LyraAttack : MonoBehaviour
 
     private float fireCountdown = 0f;
     private Transform target;
+    private AudioSource audioSource;  // ← THÊM DÒNG NÀY
+
+    void Start()
+    {
+        // Lấy AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogWarning($"{name} không có AudioSource component!");
+        }
+    }
 
     void Update()
     {
@@ -95,6 +106,12 @@ public class LyraAttack : MonoBehaviour
         {
             Debug.LogWarning($"{name} thiếu bulletPrefab hoặc firePoint!");
             return;
+        }
+
+        // ✅ PHÁT ÂM THANH KHI BẮN
+        if (audioSource != null && audioSource.clip != null)
+        {
+            audioSource.Play();
         }
 
         GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
