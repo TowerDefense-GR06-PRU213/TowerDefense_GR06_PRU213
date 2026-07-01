@@ -19,15 +19,23 @@ public class GoldManager : MonoBehaviour
 
     void Start()
     {
-        // Fix: Thêm null check và dùng giá trị mặc định
-        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        // Nếu có dữ liệu từ map trước thì dùng nó
+        if (PlayerData.Instance != null && PlayerData.Instance.gold > 0)
         {
-            currentGold = LevelManager.Instance.CurrentLevel.startingResources;
+            currentGold = PlayerData.Instance.gold;
+            Debug.Log("Đã lấy Gold từ PlayerData: " + currentGold);
         }
         else
         {
-            Debug.LogWarning("[GoldManager] LevelManager null, dùng giá trị mặc định: 500 gold");
-            currentGold = 500; // Mặc định 500 gold
+            // Nếu không có thì dùng mặc định như cũ
+            if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+            {
+                currentGold = LevelManager.Instance.CurrentLevel.startingResources;
+            }
+            else
+            {
+                currentGold = 500;
+            }
         }
 
         UpdateGoldUI();

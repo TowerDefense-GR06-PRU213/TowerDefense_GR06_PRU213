@@ -59,12 +59,33 @@ public class LevelCompleteManager : MonoBehaviour
 
     public void NextLevel()
     {
+        // Nếu chưa có PlayerData thì tự tạo
+        if (PlayerData.Instance == null)
+        {
+            GameObject obj = new GameObject("PlayerData");
+            obj.AddComponent<PlayerData>();
+
+            Debug.Log("Auto created PlayerData");
+        }
+
         Time.timeScale = 1f;
 
-        if (currentSceneIndex + 1 < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(currentSceneIndex + 1);
-        else
-            SceneManager.LoadScene("MainMenu");
+        // Save Gold
+        if (GoldManager.Instance != null)
+        {
+            PlayerData.Instance.gold = GoldManager.Instance.currentGold;
+            Debug.Log("Saved Gold = " + PlayerData.Instance.gold);
+        }
+
+        // Save Lives
+        GateHealth gate = FindObjectOfType<GateHealth>();
+        if (gate != null)
+        {
+            PlayerData.Instance.lives = gate.currentHealth;
+            Debug.Log("Saved Lives = " + PlayerData.Instance.lives);
+        }
+
+        SceneManager.LoadScene("Game_Map3");
     }
 
     public void RestartLevel()

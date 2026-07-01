@@ -53,12 +53,12 @@ public class UiController_Lv3 : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("UI Controller OnEnable");
+
         Spawner_Lv3.OnWaveChange += UpdateWaveText;
         GameManager_Lv3.OnLivesChanged += UpdateLiveText;
         Platform_Lv3.OnPlatformClicked += HandlePlatformClicked;
         HeroCard_Lv3.OnHeroSelected += HandleHeroSelected;
-
-        // --- THÊM DÒNG NÀY ---
         Spawner_Lv3.OnAllWavesCompleted += ShowWinPanel;
     }
 
@@ -82,7 +82,10 @@ public class UiController_Lv3 : MonoBehaviour
         // ---------------------------------
 
         HighlightSelectedSpeedButton(GameManager_Lv3.Instance.GameSpeed);
-
+        if (GameManager_Lv3.Instance != null)
+        {
+            UpdateLiveText(GameManager_Lv3.Instance.CurrentLives);
+        }
         // --- THÊM VÀO ĐÂY (Để an toàn) ---
         // Tự lấy AudioSource nếu bạn quên kéo vào
         if (uiAudioSource == null)
@@ -113,24 +116,23 @@ public class UiController_Lv3 : MonoBehaviour
 
     private void UpdateLiveText(int currentLives)
     {
-        LiveText.text = $"{currentLives}";
-        // --- THÊM LOGIC KIỂM TRA THUA VÀO ĐÂY ---
-        // Chỉ chạy 1 lần khi thua (tránh việc gọi SetActive liên tục)
+        Debug.Log("UI nhận lives = " + currentLives);
+
+        if (LiveText != null)
+        {
+            LiveText.text = currentLives.ToString();
+        }
+
         if (currentLives <= 0 && !GameOverPanel.activeSelf)
         {
-            // 1. Kích hoạt Panel Game Over
             GameOverPanel.SetActive(true);
-
-            // 2. Dừng game
             GameManager_Lv3.Instance.SetTimeScale(0f);
 
-            // 3. Phát âm thanh THUA
             if (loseSound != null && uiAudioSource != null)
             {
                 uiAudioSource.PlayOneShot(loseSound);
             }
         }
-        // --- HẾT THÊM MỚI ---
     }
 
     private void HandlePlatformClicked(Platform_Lv3 platform_Lv3)

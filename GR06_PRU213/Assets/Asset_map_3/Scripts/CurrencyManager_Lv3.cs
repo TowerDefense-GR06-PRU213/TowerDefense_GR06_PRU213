@@ -64,16 +64,23 @@ public class CurrencyManager_Lv3 : MonoBehaviour
 
     private void Start()
     {
-        // --- THAY ĐỔI: Thiết lập vàng ban đầu ---
-        // Fix: Kiểm tra null và dùng giá trị mặc định nếu LevelManager không có
-        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        // Nếu đi từ map trước qua thì lấy gold đã lưu
+        if (PlayerData.Instance != null && PlayerData.Instance.gold > 0)
         {
-            CurrentGold = LevelManager.Instance.CurrentLevel.startingResources;
+            CurrentGold = PlayerData.Instance.gold;
+            Debug.Log("Map3 Loaded Gold = " + CurrentGold);
         }
         else
         {
-            Debug.LogWarning("[CurrencyManager_Lv3] LevelManager hoặc CurrentLevel null, dùng giá trị mặc định: 500 gold");
-            CurrentGold = 500; // Giá trị mặc định: 500 gold
+            // Nếu chạy riêng map 3 thì dùng mặc định
+            if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+            {
+                CurrentGold = LevelManager.Instance.CurrentLevel.startingResources;
+            }
+            else
+            {
+                CurrentGold = 500;
+            }
         }
     }
 
