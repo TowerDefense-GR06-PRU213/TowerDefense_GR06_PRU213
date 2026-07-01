@@ -123,6 +123,7 @@
 //}
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HeroSelectionUI : MonoBehaviour
 {
@@ -135,10 +136,16 @@ public class HeroSelectionUI : MonoBehaviour
     [Header("Danh sách tướng")]
     public GameObject[] heroPrefabs;
     public int[] heroCosts;
+    public string[] heroNames; // Tên hiển thị của mỗi hero
 
     [Header("UI Components")]
     public Button closeButton;
     public Button[] buyButtons;
+    
+    [Header("Hero Info Text (Tên + Giá)")]
+    public TextMeshProUGUI[] heroNameTexts;   // Text hiển thị tên hero
+    public TextMeshProUGUI[] heroCostTexts;   // Text hiển thị giá tiền
+    
     [Header("Nút xóa tướng")]
     public GameObject removePanel;       // panel nhỏ có nút xóa
     public Button removeButton;
@@ -159,9 +166,42 @@ public class HeroSelectionUI : MonoBehaviour
         if (removeButton != null)
             removeButton.onClick.AddListener(RemoveHero);
 
+        // Populate hero info UI
+        UpdateHeroInfoUI();
+
         gameObject.SetActive(false);
         if (removePanel != null)
             removePanel.SetActive(false);
+    }
+    
+    // Hàm cập nhật tên hero và giá tiền lên UI
+    private void UpdateHeroInfoUI()
+    {
+        // Cập nhật tên hero
+        if (heroNameTexts != null && heroNames != null)
+        {
+            for (int i = 0; i < heroNameTexts.Length && i < heroNames.Length; i++)
+            {
+                if (heroNameTexts[i] != null)
+                {
+                    heroNameTexts[i].text = heroNames[i];
+                    heroNameTexts[i].color = Color.black; // Đảm bảo text màu đen
+                }
+            }
+        }
+        
+        // Cập nhật giá tiền
+        if (heroCostTexts != null && heroCosts != null)
+        {
+            for (int i = 0; i < heroCostTexts.Length && i < heroCosts.Length; i++)
+            {
+                if (heroCostTexts[i] != null)
+                {
+                    heroCostTexts[i].text = heroCosts[i].ToString();
+                    heroCostTexts[i].color = new Color(1f, 0.84f, 0f); // Màu vàng cho gold
+                }
+            }
+        }
     }
 
     // 🟢 Gọi khi nhấn platform trống
