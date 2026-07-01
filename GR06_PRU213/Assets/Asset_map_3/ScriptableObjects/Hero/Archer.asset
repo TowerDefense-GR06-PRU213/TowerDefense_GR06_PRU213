@@ -22,7 +22,11 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: 8daaffbe9deeb714686b94016120a827, type: 3}
   cost: 150
   upgradeCost: 50
+  maxLevel: 3
   sprite: {fileID: 5390129371266227295, guid: 10e7bece354708344a120afbc6adf25a, type: 3}
+  damageUpgradeMultiplier: 0.2
+  rangeUpgradeMultiplier: 0.1
+  shootSpeedUpgradeMultiplier: 0.15
   isMapIceHero: 0
   iceDamageMultiplier: 1.3
   iceAttackSpeedMultiplier: 1.25

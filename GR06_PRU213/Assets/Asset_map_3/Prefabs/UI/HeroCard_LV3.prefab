@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Lioran_Ph\xF9 th\u1EE7y l\u1EEDa\n\n  "
+  m_text: "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -442,6 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroImage: {fileID: 469897924200752766}
   costText: {fileID: 8129827218343454590}
+  nameText: {fileID: 2539112474063497888}
 --- !u!114 &-7263815153825190980
 MonoBehaviour:
   m_ObjectHideFlags: 0

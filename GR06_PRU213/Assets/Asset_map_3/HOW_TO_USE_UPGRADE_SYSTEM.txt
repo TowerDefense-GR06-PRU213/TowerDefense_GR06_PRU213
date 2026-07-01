@@ -1,0 +1,138 @@
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║     🎮 HỆ THỐNG NÂNG CẤP TƯỚNG MAP 3 - HƯỚNG DẪN ĐƠN GIẢN    ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ⚡ SETUP NHANH (1 PHÚT)                                        │
+└─────────────────────────────────────────────────────────────────┘
+
+1. Mở Scene Map 3 trong Unity
+2. Menu: Tools → Map 3 → Complete Setup (All-in-One)
+3. Click "Yes, Do It!"
+4. ✅ XONG!
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎯 CÁCH SỬ DỤNG TRONG GAME                                     │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────┬────────────────────────────────────────────────┐
+│ HÀNH ĐỘNG   │ CÁCH THỰC HIỆN                                 │
+├─────────────┼────────────────────────────────────────────────┤
+│ Đặt tướng   │ Click vào platform trống                       │
+│ Xem info    │ Click vào tướng đã đặt → Panel hiện ra        │
+│ Nâng cấp    │ Trong panel → Click "Upgrade (X Gold)"        │
+│ Bán tướng   │ Trong panel → Click "Sell (X Gold)"           │
+│ Đóng panel  │ Click nút X hoặc click ngoài panel            │
+└─────────────┴────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 📊 THÔNG SỐ                                                    │
+└─────────────────────────────────────────────────────────────────┘
+
+Max Level: 3
+
+Stats tăng mỗi level:
+├─ Damage:       +20% - +25%
+├─ Range:        +10% - +12%
+└─ Attack Speed: +15% - +20%
+
+Giá nâng cấp:
+├─ Level 1 → 2:  50 vàng
+└─ Level 2 → 3:  100 vàng
+
+Giá bán:
+└─ Hoàn 70% tổng đầu tư
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎯 VÍ DỤ: TETHYS (ICE HERO)                                   │
+└─────────────────────────────────────────────────────────────────┘
+
+Cost: 125 vàng
+
+┌───────┬────────┬────────┬──────────┐
+│ LEVEL │ DAMAGE │ RANGE  │ ATK/S    │
+├───────┼────────┼────────┼──────────┤
+│   1   │  35.0  │  3.0   │  1.00    │
+│   2   │  43.8  │  3.4   │  1.22    │  (+50 gold)
+│   3   │  52.5  │  3.8   │  1.47    │  (+100 gold)
+└───────┴────────┴────────┴──────────┘
+
+💎 Bonus vs Quái Băng (100% quái map 3):
+   Level 3: 68.3 dmg | 1.84 atk/s
+   → DPS: 125.5!
+
+Tổng đầu tư: 275 vàng
+Bán được:    192 vàng (70%)
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🛠️ KIỂM TRA SETUP                                             │
+└─────────────────────────────────────────────────────────────────┘
+
+Để verify mọi thứ đã setup đúng:
+
+Menu: Tools → Map 3 → Verify Setup
+
+Tool sẽ kiểm tra:
+✅ Hero ScriptableObjects
+✅ Upgrade Panel có trong Scene
+✅ Platforms đã connect
+✅ Scripts đầy đủ
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🐛 SỬA LỖI NHANH                                               │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────┬──────────────────────────────────┐
+│ LỖI                      │ GIẢI PHÁP                        │
+├──────────────────────────┼──────────────────────────────────┤
+│ Panel không hiện         │ Run: Verify Setup                │
+│ Click tướng không hoạt   │ Check Platform có gán Panel?     │
+│ Không đủ vàng upgrade    │ Button sẽ tự disable (đỏ)       │
+│ Stats không đúng         │ Run: Update All Hero Data        │
+└──────────────────────────┴──────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 📚 TÀI LIỆU CHI TIẾT                                           │
+└─────────────────────────────────────────────────────────────────┘
+
+Xem thêm:
+├─ QUICK_START_GUIDE.md       → Hướng dẫn setup 5 phút
+├─ UPGRADE_SYSTEM_SETUP.md    → Chi tiết đầy đủ
+└─ Editor/README_EDITOR_TOOLS.md → Tools menu chi tiết
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ✨ CHIẾN THUẬT ĐỀ XUẤT                                         │
+└─────────────────────────────────────────────────────────────────┘
+
+Early Game:
+└─ Đặt 2-3 Lyra (rẻ, 100 gold)
+   Sau đó upgrade lên Level 2 nếu có tiền
+
+Mid Game:
+├─ Thêm 1-2 Tethys (125 gold)
+└─ Ưu tiên upgrade Tethys → DPS cao vs quái băng
+
+Late Game:
+├─ Thay Lyra bằng Lorian (225 gold)
+└─ Upgrade tất cả lên Level 3
+   → Counter Boss Yeti dễ dàng!
+
+Pro Tip:
+└─ 100% quái map 3 là quái băng
+   → Tethys & Lorian cực OP! (Ice Hero buff)
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ 🎉 CHÚC BẠN CHƠI VUI VẺ!                                      │
+└─────────────────────────────────────────────────────────────────┘
+
+Có câu hỏi? Check Console khi chạy game để xem debug logs!

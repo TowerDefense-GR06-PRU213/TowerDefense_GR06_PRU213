@@ -26,7 +26,16 @@ public class HeroData_Lv3 : ScriptableObject
     [Header("Cost & Upgrade")]
     public int cost = 100;               // Giá đặt hero
     public int upgradeCost = 50;         // Giá nâng cấp hero
+    public int maxLevel = 3;             // Level tối đa
     public Sprite sprite;
+
+    [Header("Upgrade Stats Multiplier")]
+    [Tooltip("Mỗi level tăng damage thêm % này")]
+    public float damageUpgradeMultiplier = 0.2f;     // +20% damage/level
+    [Tooltip("Mỗi level tăng range thêm % này")]
+    public float rangeUpgradeMultiplier = 0.1f;      // +10% range/level
+    [Tooltip("Mỗi level giảm shoot interval % này (bắn nhanh hơn)")]
+    public float shootSpeedUpgradeMultiplier = 0.15f; // -15% interval/level
 
     [Header("Special Buff")]
     public bool isMapIceHero = false;

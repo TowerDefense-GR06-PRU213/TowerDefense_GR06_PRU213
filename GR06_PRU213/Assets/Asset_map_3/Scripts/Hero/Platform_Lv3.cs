@@ -93,6 +93,11 @@ public class Platform_Lv3 : MonoBehaviour
     private bool isOccupied = false;
     public static bool heroPanelOpen { get; set; } = false;
 
+    // --- THÊM REFERENCE ĐẾN UPGRADE PANEL ---
+    [Header("Upgrade Panel")]
+    [SerializeField] private HeroUpgradePanel_Lv3 upgradePanel;
+    // --- KẾT THÚC ---
+
     // --- HÀM UPDATE ĐÃ ĐƯỢC THAY ĐỔI HOÀN TOÀN ---
     private void Update()
     {
@@ -113,20 +118,11 @@ public class Platform_Lv3 : MonoBehaviour
             // 3. Kiểm tra xem có click trúng collider VÀ collider đó CÓ PHẢI LÀ CỦA platform NÀY không
             if (raycastHit.collider != null && raycastHit.collider.gameObject == this.gameObject)
             {
-                // 4. Logic rẽ nhánh: Xử lý MUA hay BÁN
+                // 4. Logic rẽ nhánh: Xử lý MUA hay UPGRADE/SELL
                 if (isOccupied)
                 {
-                    // --- XỬ LÝ BÁN TƯỚNG (DOUBLE CLICK) ---
-
-                    // Kiểm tra xem thời gian từ cú click trước có đủ gần không
-                    if (Time.time - _lastClickTime < doubleClickThreshold)
-                    {
-                        // Đây là một cú double-click!
-                        SellHero();
-                    }
-
-                    // Cập nhật lại thời gian của cú click cuối cùng (dù là click 1 hay 2)
-                    _lastClickTime = Time.time;
+                    // --- XỬ LÝ UPGRADE/SELL (CLICK VÀO TƯỚNG) ---
+                    OpenUpgradePanel();
                 }
                 else
                 {
@@ -150,9 +146,40 @@ public class Platform_Lv3 : MonoBehaviour
         isOccupied = true;
     }
 
-    // --- HÀM MỚI ĐỂ BÁN TƯỚNG ---
-    private void SellHero()
+    // --- HÀM MỚI ĐỂ MỞ UPGRADE PANEL ---
+    private void OpenUpgradePanel()
     {
+        if (_placedHero == null)
+        {
+            Debug.LogError("Không tìm thấy tướng để nâng cấp!");
+            return;
+        }
+
+        Hero_Lv3 hero = _placedHero.GetComponent<Hero_Lv3>();
+        if (hero == null)
+        {
+            Debug.LogError("GameObject không có component Hero_Lv3!");
+            return;
+        }
+
+        if (upgradePanel == null)
+        {
+            Debug.LogError("UpgradePanel chưa được gán! Hãy gán trong Inspector.");
+            return;
+        }
+
+        upgradePanel.ShowPanel(hero, this);
+    }
+
+    // --- HÀM MỚI ĐỂ BÁN TƯỚNG (GỌI TỪ UPGRADE PANEL) ---
+    public void SellHero()
+    {
+        if (_placedHero == null)
+        {
+            Debug.LogWarning("Không có tướng để bán!");
+            return;
+        }
+
         Debug.Log("Hero sold!"); // In ra console để kiểm tra
 
         // Hủy đối tượng con tướng
@@ -164,7 +191,5 @@ public class Platform_Lv3 : MonoBehaviour
 
         // Reset thời gian click để ngăn cú click thứ 3, 4
         _lastClickTime = 0f;
-
-        // Theo yêu cầu của bạn, chúng ta KHÔNG trả lại vàng ở đây
     }
 }

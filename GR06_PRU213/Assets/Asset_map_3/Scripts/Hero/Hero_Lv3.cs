@@ -16,6 +16,17 @@ public class Hero_Lv3 : MonoBehaviour
     private Animator _animator; // Tham chiếu đến Animator
     // --- KẾT THÚC THÊM MỚI ---
 
+    // --- THÊM UPGRADE SYSTEM ---
+    private int _currentLevel = 1;
+    public int CurrentLevel => _currentLevel;
+    public int MaxLevel => data.maxLevel;
+    
+    // Stats đã được tính với upgrade
+    private float _currentDamage;
+    private float _currentRange;
+    private float _currentShootInterval;
+    // --- KẾT THÚC UPGRADE SYSTEM ---
+
     void Awake()
     {
         // Mỗi trụ nên có AudioSource riêng
@@ -37,6 +48,21 @@ public class Hero_Lv3 : MonoBehaviour
         // Lấy component Animator trên cùng GameObject này
         _animator = GetComponent<Animator>();
         // --- KẾT THÚC THÊM MỚI ---
+
+        // --- KHỞI TẠO STATS BAN ĐẦU ---
+        InitializeStats();
+        // --- KẾT THÚC ---
+    }
+
+    /// <summary>
+    /// Khởi tạo stats ban đầu (level 1)
+    /// </summary>
+    private void InitializeStats()
+    {
+        _currentLevel = 1;
+        _currentDamage = data.damage;
+        _currentRange = data.range;
+        _currentShootInterval = data.shootInterval;
     }
 
     private void Update()
@@ -53,7 +79,9 @@ public class Hero_Lv3 : MonoBehaviour
     {
         if (data == null) return;
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, data.range);
+        // Hiển thị range hiện tại (đã tính upgrade)
+        float rangeToShow = Application.isPlaying ? _currentRange : data.range;
+        Gizmos.DrawWireSphere(transform.position, rangeToShow);
     }
 
     /// <summary>
@@ -82,13 +110,13 @@ public class Hero_Lv3 : MonoBehaviour
             return;
         }
 
-        // 2. Lọc quái trong tầm bắn
+        // 2. Lọc quái trong tầm bắn (dùng range đã upgrade)
         List<Enemy_Lv3> inRangeEnemies = new List<Enemy_Lv3>();
         foreach (var e in allEnemies)
         {
             if (e == null || !e.gameObject.activeInHierarchy) continue;
             float dist = Vector3.Distance(transform.position, e.transform.position);
-            if (dist <= data.range)
+            if (dist <= _currentRange)
                 inRangeEnemies.Add(e);
         }
 
@@ -129,9 +157,9 @@ public class Hero_Lv3 : MonoBehaviour
         Debug.Log("ANIM_DEBUG: ĐÃ TÌM THẤY MỤC TIÊU! (Setting TRUE)");
         // -----------
 
-        // 4. Tính toán Sát thương và Tốc độ đánh (Lấy từ code comment của bạn)
-        float finalDamage = data.damage;
-        float finalShootInterval = data.shootInterval;
+        // 4. Tính toán Sát thương và Tốc độ đánh (đã bao gồm upgrade)
+        float finalDamage = _currentDamage;
+        float finalShootInterval = _currentShootInterval;
 
         // Nếu là trụ băng VÀ bắn quái băng -> được buff
         if (data.isMapIceHero && IsIceEnemy(target))
@@ -251,6 +279,102 @@ public class Hero_Lv3 : MonoBehaviour
                enemy.Data.type == EnemyType_Lv3.SnowMan ||
                enemy.Data.type == EnemyType_Lv3.BossYeti;
     }
+
+    // --- THÊM CÁC HÀM CHO HỆ THỐNG NÂNG CẤP ---
+
+    /// <summary>
+    /// Kiểm tra xem tướng có thể nâng cấp không
+    /// </summary>
+    public bool CanUpgrade()
+    {
+        return _currentLevel < data.maxLevel;
+    }
+
+    /// <summary>
+    /// Lấy giá nâng cấp hiện tại
+    /// </summary>
+    public int GetUpgradeCost()
+    {
+        if (!CanUpgrade()) return 0;
+        // Có thể tăng giá theo level: cost * level
+        return data.upgradeCost * _currentLevel;
+    }
+
+    /// <summary>
+    /// Nâng cấp tướng lên 1 level
+    /// </summary>
+    public void Upgrade()
+    {
+        if (!CanUpgrade())
+        {
+            Debug.LogWarning($"{name} đã đạt level tối đa!");
+            return;
+        }
+
+        _currentLevel++;
+
+        // Tính toán stats mới
+        RecalculateStats();
+
+        Debug.Log($"{name} đã nâng cấp lên Level {_currentLevel}! " +
+                  $"Damage: {_currentDamage:F1}, Range: {_currentRange:F1}, " +
+                  $"Shoot Interval: {_currentShootInterval:F2}s");
+
+        // TODO: Thêm hiệu ứng visual khi upgrade (particle, sound, v.v.)
+    }
+
+    /// <summary>
+    /// Tính toán lại stats dựa trên level hiện tại
+    /// </summary>
+    private void RecalculateStats()
+    {
+        // Level 1 = stats gốc
+        // Level 2 = stats gốc * (1 + multiplier)
+        // Level 3 = stats gốc * (1 + multiplier * 2)
+        int levelsAboveOne = _currentLevel - 1;
+
+        _currentDamage = data.damage * (1 + data.damageUpgradeMultiplier * levelsAboveOne);
+        _currentRange = data.range * (1 + data.rangeUpgradeMultiplier * levelsAboveOne);
+        _currentShootInterval = data.shootInterval * (1 - data.shootSpeedUpgradeMultiplier * levelsAboveOne);
+
+        // Đảm bảo shoot interval không âm
+        if (_currentShootInterval < 0.1f) _currentShootInterval = 0.1f;
+    }
+
+    /// <summary>
+    /// Lấy stats hiện tại (để hiển thị UI)
+    /// </summary>
+    public (float damage, float range, float shootInterval) GetCurrentStats()
+    {
+        return (_currentDamage, _currentRange, _currentShootInterval);
+    }
+
+    /// <summary>
+    /// Lấy stats sau khi nâng cấp (để preview)
+    /// </summary>
+    public (float damage, float range, float shootInterval) GetNextLevelStats()
+    {
+        if (!CanUpgrade()) return GetCurrentStats();
+
+        int nextLevel = _currentLevel;
+        float nextDamage = data.damage * (1 + data.damageUpgradeMultiplier * nextLevel);
+        float nextRange = data.range * (1 + data.rangeUpgradeMultiplier * nextLevel);
+        float nextShootInterval = data.shootInterval * (1 - data.shootSpeedUpgradeMultiplier * nextLevel);
+
+        if (nextShootInterval < 0.1f) nextShootInterval = 0.1f;
+
+        return (nextDamage, nextRange, nextShootInterval);
+    }
+
+    /// <summary>
+    /// Lấy thông tin hero data
+    /// </summary>
+    public HeroData_Lv3 GetData()
+    {
+        return data;
+    }
+
+    // --- KẾT THÚC HỆ THỐNG NÂNG CẤP ---
 }
 
 // Bạn cũng cần định nghĩa enum TargetPriority ở đâu đó,

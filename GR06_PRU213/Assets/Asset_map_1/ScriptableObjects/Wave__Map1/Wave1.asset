@@ -19,13 +19,13 @@ MonoBehaviour:
     targetPath: {fileID: 0}
     pathName: Path1
   - enemyType: 1
-    count: 3
+    count: 5
     spawnInterval: 2
     targetPath: {fileID: 0}
     pathName: Path2
   - enemyType: 0
-    count: 2
-    spawnInterval: 1
+    count: 7
+    spawnInterval: 2
     targetPath: {fileID: 0}
     pathName: Path1
   startDelay: 3
