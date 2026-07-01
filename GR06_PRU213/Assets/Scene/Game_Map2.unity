@@ -2165,7 +2165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[2].enemyGroups.Array.data[1].count
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[2].enemyGroups.Array.data[2].count
@@ -2181,19 +2181,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[0].count
-      value: 6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[1].count
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[2].count
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[3].count
-      value: 8
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[4].enemyGroups.Array.data[0].count
@@ -2221,7 +2221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[2].enemyGroups.Array.data[1].spawnDelay
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[2].enemyGroups.Array.data[2].spawnDelay
@@ -2237,19 +2237,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[0].spawnDelay
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[1].spawnDelay
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[2].spawnDelay
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[3].enemyGroups.Array.data[3].spawnDelay
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5749968239105515569, guid: a976638685e9e7245adbd1b16cb97add, type: 3}
       propertyPath: waves.Array.data[4].enemyGroups.Array.data[0].spawnDelay

@@ -64,7 +64,7 @@ MonoBehaviour:
       path: 0
     - enemyPrefab: {fileID: 914703322160911753, guid: eb3ed1aba6f880548b545dfd7c39b166, type: 3}
       count: 6
-      spawnDelay: 2
+      spawnDelay: 1
       path: 1
     reward: 0
   - waveName: wave 3
