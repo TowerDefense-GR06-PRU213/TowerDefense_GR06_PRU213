@@ -506,12 +506,27 @@ MonoBehaviour:
   - {fileID: 3292263940707201102, guid: bcb8df24648403b49a8e4bd5dfd1236d, type: 3}
   - {fileID: 6721482997548871093, guid: 508a4b599518f644c9b322e84371ace4, type: 3}
   heroCosts: 900100007800000082000000b4000000
+  heroNames:
+  - Archer
+  - Lyra
+  - Selim
+  - Tethys
   closeButton: {fileID: 2338815148164784099}
   buyButtons:
   - {fileID: 522829456022973848}
   - {fileID: 5197613283788397975}
   - {fileID: 2503661153870881898}
   - {fileID: 8748539564677045122}
+  heroNameTexts:
+  - {fileID: 799246223950214196}
+  - {fileID: 1741894690257844240}
+  - {fileID: 4597320054735370300}
+  - {fileID: 8494930531385548967}
+  heroCostTexts:
+  - {fileID: 4205513220419978703}
+  - {fileID: 8050462532891995911}
+  - {fileID: 6131748285557308617}
+  - {fileID: 3173881915636660104}
   removePanel: {fileID: 0}
   removeButton: {fileID: 0}
 --- !u!1 &1527837763398091963

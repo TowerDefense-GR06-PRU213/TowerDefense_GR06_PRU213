@@ -166,12 +166,41 @@ public class HeroSelectionUI : MonoBehaviour
         if (removeButton != null)
             removeButton.onClick.AddListener(RemoveHero);
 
+        // FIX: Make close button visible
+        FixCloseButton();
+        
         // Populate hero info UI
         UpdateHeroInfoUI();
 
         gameObject.SetActive(false);
         if (removePanel != null)
             removePanel.SetActive(false);
+    }
+    
+    // FIX: Làm nút close button hiển thị được
+    private void FixCloseButton()
+    {
+        if (closeButton != null)
+        {
+            Image closeImg = closeButton.GetComponent<Image>();
+            if (closeImg != null)
+            {
+                // Đổi màu nút close thành màu đỏ và hiển thị rõ
+                closeImg.color = new Color(0.8f, 0.2f, 0.2f, 1f); // Màu đỏ, alpha = 1
+                Debug.Log("[HeroSelectionUI] Đã sửa close button - màu đỏ alpha=1");
+            }
+            
+            // Nếu có text "X" trong button
+            TextMeshProUGUI closeText = closeButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (closeText != null)
+            {
+                closeText.text = "X";
+                closeText.color = Color.white;
+                closeText.fontSize = 40;
+                closeText.fontStyle = FontStyles.Bold;
+                Debug.Log("[HeroSelectionUI] Đã set text X cho close button");
+            }
+        }
     }
     
     // Hàm cập nhật tên hero và giá tiền lên UI
@@ -186,6 +215,8 @@ public class HeroSelectionUI : MonoBehaviour
                 {
                     heroNameTexts[i].text = heroNames[i];
                     heroNameTexts[i].color = Color.black; // Đảm bảo text màu đen
+                    heroNameTexts[i].fontSize = 28; // Tăng size
+                    heroNameTexts[i].fontStyle = FontStyles.Bold; // In đậm
                 }
             }
         }
@@ -199,6 +230,8 @@ public class HeroSelectionUI : MonoBehaviour
                 {
                     heroCostTexts[i].text = heroCosts[i].ToString();
                     heroCostTexts[i].color = new Color(1f, 0.84f, 0f); // Màu vàng cho gold
+                    heroCostTexts[i].fontSize = 24;
+                    heroCostTexts[i].fontStyle = FontStyles.Bold;
                 }
             }
         }
