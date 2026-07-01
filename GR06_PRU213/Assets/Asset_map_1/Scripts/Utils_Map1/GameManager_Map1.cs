@@ -100,6 +100,8 @@ public class GameManager_Map1 : MonoBehaviour
         OnLivesChanged?.Invoke(_lives);
         OnResourcesChanged?.Invoke(_resources);
 
+        // IMPORTANT: Reset time scale to normal
+        Time.timeScale = 1f;
         SetGameSpeed(1f);
     }
 

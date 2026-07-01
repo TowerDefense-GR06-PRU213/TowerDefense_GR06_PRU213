@@ -246,7 +246,24 @@ public class UIController_Map1 : MonoBehaviour
 
     public void RestartLevel()
     {
-        LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
+        // CRITICAL: Reset time scale BEFORE reloading scene
+        Time.timeScale = 1f;
+        GameManager_Map1.Instance.SetGameSpeed(1f);
+        
+        // Hide game over panel
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+        
+        // Load current level again
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
+        }
+        else
+        {
+            // Fallback: Reload current scene directly
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void QuitGame()
@@ -260,14 +277,31 @@ public class UIController_Map1 : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        GameManager_Map1.Instance.SetTimeScale(1f);
+        // Reset time scale before leaving
+        Time.timeScale = 1f;
+        if (GameManager_Map1.Instance != null)
+            GameManager_Map1.Instance.SetGameSpeed(1f);
+        
         SceneManager.LoadScene("MainMenu");
     }
 
     private void ShowGameOver()
     {
-        GameManager_Map1.Instance.SetTimeScale(0f);
-        gameOverPanel.SetActive(true);
+        // Stop the game
+        Time.timeScale = 0f;
+        if (GameManager_Map1.Instance != null)
+            GameManager_Map1.Instance.SetTimeScale(0f);
+        
+        // Hide pause panel if it's open
+        if (pausePanel != null && pausePanel.activeSelf)
+        {
+            pausePanel.SetActive(false);
+            _isGamePaused = false;
+        }
+        
+        // Show game over panel
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
