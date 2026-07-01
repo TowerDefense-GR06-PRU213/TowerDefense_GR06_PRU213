@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8a038efccd1cf4dac95b1f499f1cad, type: 3}
   m_Name: EnemyData_Map1_Slime_phan_no
   m_EditorClassIdentifier: 
-  lives: 120
+  lives: 300
   damage: 1
   speed: 1
-  resourceReward: 500
+  resourceReward: 50
   kyNang: 2
   PrefabSlimeNho: {fileID: 0}
   ThoiGianPhanChia: 10

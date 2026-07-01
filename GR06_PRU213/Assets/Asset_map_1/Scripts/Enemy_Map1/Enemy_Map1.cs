@@ -126,7 +126,7 @@ public class Enemy_Map1 : MonoBehaviour
         {
             _daBiDanhTrung = true; // Đánh dấu là đã bị nhắm bắn
 
-            if (UnityEngine.Random.value < 0.2f) // 20% cơ hội
+            if (UnityEngine.Random.value < 0.7f) // 70% cơ hội
             {
                 // 🟢 BỎ DẤU // Ở DÒNG DƯỚI ĐỂ DEBUG
                 Debug.Log("GOBLIN NÉ ĐÒN THÀNH CÔNG!");
@@ -152,7 +152,7 @@ public class Enemy_Map1 : MonoBehaviour
             // Nếu máu dưới 50%
             if (_lives / _maxLives < 0.5f)
             {
-                _currentSpeed = data.speed * 2f; // Tăng tốc gấp đôi
+                _currentSpeed = data.speed * 4f; // Tăng tốc gấp 4
             }
         }
         // Kiểm tra nếu chết

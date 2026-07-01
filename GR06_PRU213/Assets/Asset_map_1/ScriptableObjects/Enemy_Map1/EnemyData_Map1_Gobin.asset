@@ -15,7 +15,7 @@ MonoBehaviour:
   lives: 100
   damage: 1
   speed: 0.7
-  resourceReward: 60
+  resourceReward: 30
   kyNang: 1
   PrefabSlimeNho: {fileID: 0}
   ThoiGianPhanChia: 10
