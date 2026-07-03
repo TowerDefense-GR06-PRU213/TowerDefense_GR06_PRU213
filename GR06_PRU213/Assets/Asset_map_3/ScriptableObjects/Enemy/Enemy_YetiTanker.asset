@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c015880d0eb26540865fd086c6db893, type: 3}
   m_Name: Enemy_YetiTanker
   m_EditorClassIdentifier: 
-  lives: 220
+  lives: 550
   damage: 1
-  speed: 0.7
+  speed: 0.5
   type: 1
   goldReward: 42
   isSlowImmune: 1

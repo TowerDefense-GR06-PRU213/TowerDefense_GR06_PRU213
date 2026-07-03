@@ -18,7 +18,7 @@ MonoBehaviour:
   type: 2
   goldReward: 40
   isSlowImmune: 0
-  shieldAmount: 10
-  shieldRegenTime: 60
+  shieldAmount: 30
+  shieldRegenTime: 50
   deathSound: {fileID: 8300000, guid: 27f4165622fccec4db5e54a7aeadfff3, type: 3}
   spawnSound: {fileID: 8300000, guid: 35b2cbafc907c3d41aab9002dd5f5a7f, type: 3}
