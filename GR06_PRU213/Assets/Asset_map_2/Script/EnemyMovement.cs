@@ -6,15 +6,11 @@ public class EnemyMovement : MonoBehaviour
     public enum PathType { A, B }
     public PathType pathType = PathType.A;
 
-    [Header("⚙️ Cấu hình di chuyển")]
+    // Zombie và Orc chỉ dùng 2 biến này — tốc độ di chuyển và sát thương gây cho cổng khi đến nơi
     public float speed = 2f;
-
-    [Header("💥 Sát thương khi vào thành")]
     public int damageToGate = 1;
 
-
-    [Header("👑 Là Boss? (Tiny Golem, v.v.)")]
-    public bool isBoss = false; // ✅ tick ô này cho boss trong prefab
+    public bool isBoss = false;
 
     private Transform[] path;
     private Transform target;
@@ -22,6 +18,7 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        // Tùy pathType mà lấy đường đi A hoặc B
         if (pathType == PathType.A)
             path = FindFirstObjectByType<WaypointsA>().points;
         else
@@ -42,6 +39,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (path == null || target == null) return;
 
+        // Di chuyển về phía điểm tiếp theo theo tốc độ speed
         Vector2 dir = target.position - transform.position;
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
@@ -51,9 +49,9 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-
     void GetNextWaypoint()
     {
+        // Đến điểm cuối → đánh cổng → tự xóa
         if (waypointIndex >= path.Length - 1)
         {
             GateHealth gate = FindFirstObjectByType<GateHealth>();
@@ -73,5 +71,4 @@ public class EnemyMovement : MonoBehaviour
         waypointIndex++;
         target = path[waypointIndex];
     }
-
 }
