@@ -23,9 +23,8 @@ public class UIController_Map1 : MonoBehaviour
 
     private Platform_Map1 _currentPlatform;
 
-    [SerializeField] private Button speed1Button;
-    [SerializeField] private Button speed2Button;
-    [SerializeField] private Button speed3Button;
+    [SerializeField] private Button speedButton;
+    [SerializeField] private TMP_Text speedButtonText; // Hiển thị "x1", "x2", "x3" (có thể để trống nếu không cần)
     [SerializeField] private Button muteButton;
 
     [SerializeField] private Color normalButtonColor = Color.white;
@@ -33,6 +32,8 @@ public class UIController_Map1 : MonoBehaviour
     [SerializeField] private Color normalTextColor = Color.black;
     [SerializeField] private Color selectedTextColor = Color.white;
 
+    private readonly float[] speedLevels = { 1f, 2f, 3f };
+    private int currentSpeedIndex = 0;
 
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;
@@ -65,14 +66,12 @@ public class UIController_Map1 : MonoBehaviour
 
     private void Start()
     {
-        speed1Button.onClick.AddListener(() => SetGameSpeed(0.2f));
-        speed2Button.onClick.AddListener(() => SetGameSpeed(1f));
-        speed3Button.onClick.AddListener(() => SetGameSpeed(2f));
+        speedButton.onClick.AddListener(CycleGameSpeed);
 
-        HighlightSelectedSpeedButton(GameManager_Map1.Instance.GameSpeed);
-
-        // THÊM DÒNG NÀY: Gán sự kiện click cho nút Mute
-        //muteButton.onClick.AddListener(ToggleMute);
+        // Khởi tạo tốc độ ban đầu dựa trên GameSpeed hiện tại (nếu có), mặc định x1
+        currentSpeedIndex = Array.IndexOf(speedLevels, GameManager_Map1.Instance.GameSpeed);
+        if (currentSpeedIndex < 0) currentSpeedIndex = 0;
+        UpdateSpeedButtonVisual();
 
         _isMuted = false; 
         AudioListener.volume = 1f; 
@@ -178,10 +177,26 @@ public class UIController_Map1 : MonoBehaviour
         warningText.gameObject.SetActive(false);
     }
 
-    private void SetGameSpeed(float timeScale)
+    private void CycleGameSpeed()
     {
-        HighlightSelectedSpeedButton(timeScale);
-        GameManager_Map1.Instance.SetGameSpeed(timeScale);
+        currentSpeedIndex = (currentSpeedIndex + 1) % speedLevels.Length;
+        float newSpeed = speedLevels[currentSpeedIndex];
+
+        GameManager_Map1.Instance.SetGameSpeed(newSpeed);
+        UpdateSpeedButtonVisual();
+    }
+
+    private void UpdateSpeedButtonVisual()
+    {
+        float speed = speedLevels[currentSpeedIndex];
+
+        if (speedButtonText != null)
+        {
+            speedButtonText.text = $"x{speed:0.#}";
+        }
+
+        // Đổi màu nút khi đang ở mức tốc độ cao nhất (x3), có thể bỏ dòng dưới nếu không cần
+        UpdateButtonVisual(speedButton, currentSpeedIndex == speedLevels.Length - 1);
     }
 
     private void UpdateButtonVisual(Button button, bool isSelected)
@@ -193,13 +208,6 @@ public class UIController_Map1 : MonoBehaviour
         {
             text.color = isSelected ? selectedTextColor : normalTextColor;
         }
-    }
-
-    private void HighlightSelectedSpeedButton(float selectedSpeed)
-    {
-        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
-        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
     }
 
 
@@ -373,4 +381,3 @@ public class UIController_Map1 : MonoBehaviour
 
 
 }
-

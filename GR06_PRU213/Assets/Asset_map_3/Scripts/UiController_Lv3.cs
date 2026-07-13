@@ -22,14 +22,15 @@ public class UiController_Lv3 : MonoBehaviour
 
     private Platform_Lv3 _currenrPlatform;
 
-    [SerializeField] private Button speed1Button;
-    [SerializeField] private Button speed2Button;
-    [SerializeField] private Button speed3Button;
+    [SerializeField] private Button speedButton;
 
     [SerializeField] private Color normalButtonColor = Color.white;
     [SerializeField] private Color selectedButtonColor = Color.blue;
     [SerializeField] private Color normalTextColor = Color.black;
     [SerializeField] private Color selectedTextColor = Color.white;
+
+    private readonly float[] speedLevels = { 0.2f, 1f, 2f };
+    private int currentSpeedIndex = 0;
 
     [SerializeField] private GameObject pausePanel;
     private bool _isGamePaused = false;
@@ -74,11 +75,8 @@ public class UiController_Lv3 : MonoBehaviour
 
     private void Start()
     {
-        // --- SỬA LẠI CÁC LISTENER NÀY ---
-        // Thêm hàm PlayClickSound() vào
-        speed1Button.onClick.AddListener(() => { SetGameSpeed(0.2f); PlayClickSound(); });
-        speed2Button.onClick.AddListener(() => { SetGameSpeed(1f); PlayClickSound(); });
-        speed3Button.onClick.AddListener(() => { SetGameSpeed(2f); PlayClickSound(); });
+        // --- SỬA LẠI: 1 NÚT DUY NHẤT, TỰ CHUYỂN VÒNG TỐC ĐỘ ---
+        speedButton.onClick.AddListener(() => { CycleGameSpeed(); PlayClickSound(); });
         // ---------------------------------
 
         HighlightSelectedSpeedButton(GameManager_Lv3.Instance.GameSpeed);
@@ -158,12 +156,13 @@ public class UiController_Lv3 : MonoBehaviour
 
     private void PopulateHeroCards()
     {
-        foreach(var card in activeCards)
+        foreach (var card in activeCards)
         {
             Destroy(card);
-        }activeCards.Clear();
+        }
+        activeCards.Clear();
 
-        foreach(var data in heros)
+        foreach (var data in heros)
         {
             GameObject cardGameObject = Instantiate(heroCardPrefab,
                 cardsContainer);
@@ -207,24 +206,27 @@ public class UiController_Lv3 : MonoBehaviour
             // --- HẾT THÊM MỚI ---
             // 5. Nếu không đủ tiền, thông báo (hoặc làm gì đó khác)
             Debug.Log($"Không đủ tiền! Cần {heroData.cost} vàng.");
-            
+
         }
 
         // 6. Dù thành công hay thất bại, cũng ẩn panel chọn lính
         HideHeroPanel();
     }
     // --- KẾT THÚC THAY ĐỔI ---
-   /* private IEnumerator ShowNoResourcesMessage()
-    {
-        noResourcesText.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
-        noResourcesText.SetActive(false);
-    }*/
+    /* private IEnumerator ShowNoResourcesMessage()
+     {
+         noResourcesText.SetActive(true);
+         yield return new WaitForSecondsRealtime(3f);
+         noResourcesText.SetActive(false);
+     }*/
 
-    private void SetGameSpeed(float timeScale)
+    private void CycleGameSpeed()
     {
-        HighlightSelectedSpeedButton(timeScale);
-        GameManager_Lv3.Instance.SetGameSpeed(timeScale);
+        currentSpeedIndex = (currentSpeedIndex + 1) % speedLevels.Length;
+        float newSpeed = speedLevels[currentSpeedIndex];
+
+        GameManager_Lv3.Instance.SetGameSpeed(newSpeed);
+        HighlightSelectedSpeedButton(newSpeed);
     }
 
     private void UpdateButtonVisual(Button button, bool isSelected)
@@ -240,9 +242,11 @@ public class UiController_Lv3 : MonoBehaviour
 
     private void HighlightSelectedSpeedButton(float selectedSpeed)
     {
-        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
-        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
+        int idx = Array.IndexOf(speedLevels, selectedSpeed);
+        if (idx >= 0) currentSpeedIndex = idx;
+
+        // Tô màu nút khi đang ở mức tốc độ cao nhất (2f), giữ màu bình thường ở các mức khác
+        UpdateButtonVisual(speedButton, selectedSpeed == 2f);
     }
 
     public void TogglePause()
@@ -299,11 +303,11 @@ public class UiController_Lv3 : MonoBehaviour
         GameManager_Lv3.Instance.SetTimeScale(1f);
         SceneManager.LoadScene("MainMenu");
     }
-    
+
     public void LoadNextLevel()
     {
         PlayClickSound();
-        
+
         // Fix: Thêm null check và fallback
         var levelManager = LevelManager.Instance;
         if (levelManager != null && levelManager.allLevels != null && levelManager.CurrentLevel != null)
@@ -317,7 +321,7 @@ public class UiController_Lv3 : MonoBehaviour
                 return;
             }
         }
-        
+
         // Fallback: Nếu không có LevelManager, load scene tiếp theo theo index
         Debug.LogWarning("[UiController_Lv3] LevelManager null, loading next scene by index");
         missionCompletePanel.SetActive(false);
@@ -344,7 +348,7 @@ public class UiController_Lv3 : MonoBehaviour
         {
             Debug.LogError("Spawner Instance is missing! Cannot enter Endless Mode.");
         }
-       
+
     }
 
     // --- THÊM CÁC HÀM NÀY VÀO CUỐI SCRIPT ---
@@ -376,5 +380,3 @@ public class UiController_Lv3 : MonoBehaviour
         }
     }
 }
-
-
