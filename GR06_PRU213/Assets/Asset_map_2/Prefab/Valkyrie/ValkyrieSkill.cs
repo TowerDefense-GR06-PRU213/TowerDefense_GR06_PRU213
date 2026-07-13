@@ -3,21 +3,20 @@
 [RequireComponent(typeof(EnemyHealth))]
 public class ValkyrieSkill : MonoBehaviour
 {
-    [Header("🛡️ Kỹ năng đặc biệt của Valkyrie")]
-    [Tooltip("0.8 = nhận 80% sát thương (giảm 20%)")]
+    // Nhân 0.8 = giảm 20% sát thương nhận vào
     public float heSoGiamSatThuong = 0.8f;
 
-    [Tooltip("Thời gian hiệu lực của hiệu ứng (giây)")]
+    // Khiên kéo dài 2.5 giây
     public float thoiGianHieuLuc = 2.5f;
 
-    [Tooltip("Thời gian hồi chiêu sau khi hiệu ứng kết thúc (giây)")]
+    // Hết khiên thì chờ 6 giây mới dùng lại
     public float thoiGianHoiChieu = 6f;
 
-    [Header("Hiệu ứng khiên phóng to")]
-    [Tooltip("Object hình cái khiên (SpriteRenderer)")]
     public GameObject spriteKhien;
 
     private EnemyHealth mauEnemy;
+
+    // 2 cờ trạng thái — đang bật khiên hay đang chờ cooldown
     private bool dangGiamSatThuong = false;
     private bool dangHoiChieu = false;
     private float demHieuLuc = 0f;
@@ -26,6 +25,9 @@ public class ValkyrieSkill : MonoBehaviour
     void Awake()
     {
         mauEnemy = GetComponent<EnemyHealth>();
+
+        // Đăng ký hàm XuLySatThuong vào sự kiện OnTakeDamage
+        // Mỗi lần Valkyrie nhận đòn, sát thương phải đi qua hàm này trước rồi mới trừ máu
         mauEnemy.OnTakeDamage += XuLySatThuong;
 
         if (spriteKhien != null)
@@ -34,18 +36,20 @@ public class ValkyrieSkill : MonoBehaviour
 
     void OnDestroy()
     {
+        // Khi Valkyrie chết thì hủy đăng ký sự kiện — tránh lỗi gọi hàm trên object đã bị xóa
         if (mauEnemy != null)
             mauEnemy.OnTakeDamage -= XuLySatThuong;
     }
 
     void Update()
     {
-        // Hiệu lực buff
         if (dangGiamSatThuong)
         {
+            // Đếm ngược 2.5 giây hiệu lực khiên
             demHieuLuc -= Time.deltaTime;
             if (demHieuLuc <= 0f)
             {
+                // Hết khiên → bật cooldown 6 giây
                 dangGiamSatThuong = false;
                 dangHoiChieu = true;
                 demHoiChieu = thoiGianHoiChieu;
@@ -57,9 +61,9 @@ public class ValkyrieSkill : MonoBehaviour
             }
         }
 
-        // Hồi chiêu
         if (dangHoiChieu)
         {
+            // Đếm ngược 6 giây cooldown, hết thì cho phép bật khiên lại
             demHoiChieu -= Time.deltaTime;
             if (demHoiChieu <= 0f)
             {
@@ -77,6 +81,7 @@ public class ValkyrieSkill : MonoBehaviour
         {
             if (!dangGiamSatThuong)
             {
+                // Bật khiên lên, bắt đầu đếm 2.5 giây
                 dangGiamSatThuong = true;
                 demHieuLuc = thoiGianHieuLuc;
 
@@ -89,6 +94,7 @@ public class ValkyrieSkill : MonoBehaviour
                 Debug.Log($"🛡️ Valkyrie kích hoạt giảm sát thương trong {thoiGianHieuLuc}s!");
             }
 
+            // damageGoc nhân 0.8 — bắn 100 thì chỉ nhận 80
             if (dangGiamSatThuong)
                 satThuongSauCung = Mathf.RoundToInt(damageGoc * heSoGiamSatThuong);
         }
@@ -99,16 +105,14 @@ public class ValkyrieSkill : MonoBehaviour
     private System.Collections.IEnumerator PhongToKhien(Transform target)
     {
         float elapsed = 0f;
-        float speed = 5f;      // tốc độ nhấp nháy nhanh hơn
-        float maxScale = 5f;   // phóng to gấp đôi
+        float speed = 5f;
+        float maxScale = 5f;
         Vector3 baseScale = Vector3.one;
-
-        Debug.Log("🔹 Bắt đầu phóng to khiên!");
 
         while (elapsed < thoiGianHieuLuc)
         {
-            float t = Mathf.PingPong(elapsed * speed, 1f);   // dao động từ 0 -> 1 -> 0
-            float scale = Mathf.Lerp(1f, maxScale, t);       // nội suy giữa 1 và 2
+            float t = Mathf.PingPong(elapsed * speed, 1f);
+            float scale = Mathf.Lerp(1f, maxScale, t);
             target.localScale = new Vector3(scale, scale, 1f);
 
             elapsed += Time.deltaTime;
@@ -116,7 +120,5 @@ public class ValkyrieSkill : MonoBehaviour
         }
 
         target.localScale = baseScale;
-        Debug.Log("🔹 Kết thúc phóng to khiên!");
     }
-
 }
