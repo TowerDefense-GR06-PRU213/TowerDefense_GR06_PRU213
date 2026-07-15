@@ -44,11 +44,14 @@ public class UIController_map_4 : MonoBehaviour
     private AudioSource audioSource;
 
     [Header("Speed Buttons")]
-    [SerializeField] private Button speed1Button;
-    [SerializeField] private Button speed2Button;
-    [SerializeField] private Button speed3Button;
+    [SerializeField] private Button speedToggleButton; // NÚT DUY NHẤT
+    [SerializeField] private TMP_Text speedButtonText; // Text hiển thị tốc độ (0.5x, 1x, 2x)
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button nextLevelButton;
+
+    // ✨ THÊM: Quản lý tốc độ hiện tại
+    private float[] speedLevels = { 0.5f, 1f, 2f }; // 3 mức tốc độ
+    private int currentSpeedIndex = 1; // Bắt đầu từ 1x (index 1)
 
     [SerializeField] private Color normalButtonColor = Color.white;
     [SerializeField] private Color selectedButtonColor = Color.blue;
@@ -125,10 +128,21 @@ public class UIController_map_4 : MonoBehaviour
             soundButtonImage.color = _isMuted ? soundOffColor : soundOnColor;
         }
 
-        speed1Button.onClick.AddListener(() => SetGameSpeed(0.2f));
-        speed2Button.onClick.AddListener(() => SetGameSpeed(1f));
-        speed3Button.onClick.AddListener(() => SetGameSpeed(2f));
-        HighlightSelectedSpeedButton(GameManager_map_4.Instance.GameSpeed);
+        // ✨ GÁN SỰ KIỆN CHO NÚT SPEED TOGGLE
+        if (speedToggleButton != null)
+        {
+            speedToggleButton.onClick.AddListener(CycleGameSpeed);
+            Debug.Log("[UIController_Map4] Speed toggle button listener added!");
+        }
+        else
+        {
+            Debug.LogError("[UIController_Map4] speedToggleButton is NULL! Please assign it in Inspector.");
+        }
+
+        // Khởi tạo tốc độ ban đầu
+        SetGameSpeed(speedLevels[currentSpeedIndex]); // 1x
+        UpdateSpeedButtonText();
+        Debug.Log($"[UIController_Map4] Initial speed set to {speedLevels[currentSpeedIndex]}x");
     }
 
     private void Update()
@@ -137,7 +151,7 @@ public class UIController_map_4 : MonoBehaviour
     }
 
     // ===== HUD =====
-    private void UpdateWaveText(int currentWave) => waveText.text = $"Wave: {currentWave + 1}";
+    private void UpdateWaveText(int currentWave) => waveText.text = $"Wave: {currentWave}"; // ✅ FIX: Không cộng thêm 1 nữa
     private void UpdateLivesText(int currentLives)
     {
         livesText.text = $"{currentLives}";
@@ -261,9 +275,38 @@ public class UIController_map_4 : MonoBehaviour
     }
 
     // ===== Speed / Pause / Scene =====
+    
+    // ✨ HÀM MỚI: Cycle qua 3 tốc độ
+    private void CycleGameSpeed()
+    {
+        // ✅ DEBUG: Kiểm tra xem hàm có được gọi không
+        Debug.Log("[UIController_Map4] CycleGameSpeed() called!");
+        
+        // Tăng index, quay lại 0 nếu vượt quá
+        currentSpeedIndex = (currentSpeedIndex + 1) % speedLevels.Length;
+        
+        // Áp dụng tốc độ mới
+        float newSpeed = speedLevels[currentSpeedIndex];
+        SetGameSpeed(newSpeed);
+        
+        // Cập nhật text trên button
+        UpdateSpeedButtonText();
+        
+        Debug.Log($"[UIController_Map4] Speed changed to {newSpeed}x (index: {currentSpeedIndex})");
+    }
+    
+    // ✨ HÀM MỚI: Cập nhật text hiển thị trên button
+    private void UpdateSpeedButtonText()
+    {
+        if (speedButtonText != null)
+        {
+            float currentSpeed = speedLevels[currentSpeedIndex];
+            speedButtonText.text = $"{currentSpeed}x";
+        }
+    }
+    
     private void SetGameSpeed(float timeScale)
     {
-        HighlightSelectedSpeedButton(timeScale);
         GameManager_map_4.Instance.SetGameSpeed(timeScale);
     }
 
@@ -272,13 +315,6 @@ public class UIController_map_4 : MonoBehaviour
         button.image.color = isSelected ? selectedButtonColor : normalButtonColor;
         var text = button.GetComponentInChildren<TMP_Text>();
         if (text) text.color = isSelected ? selectedTextColor : normalTextColor;
-    }
-
-    private void HighlightSelectedSpeedButton(float selectedSpeed)
-    {
-        UpdateButtonVisual(speed1Button, selectedSpeed == 0.2f);
-        UpdateButtonVisual(speed2Button, selectedSpeed == 1f);
-        UpdateButtonVisual(speed3Button, selectedSpeed == 2f);
     }
 
     public void TogglePause()
@@ -363,7 +399,18 @@ public class UIController_map_4 : MonoBehaviour
 
     private IEnumerator ShowObjective()
     {
-        objectiveText.text = $"Survive {LevelManager.Instance.CurrentLevel.wavesToWin} waves!";
+        // ✅ FIX: Kiểm tra null trước khi sử dụng
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            objectiveText.text = $"Survive {LevelManager.Instance.CurrentLevel.wavesToWin} waves!";
+        }
+        else
+        {
+            // Fallback: Dùng giá trị mặc định
+            objectiveText.text = $"Survive 5 waves!";
+            Debug.LogWarning("[UIController_Map4] LevelManager not found, using default objective");
+        }
+        
         objectiveText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);
         objectiveText.gameObject.SetActive(false);
@@ -391,10 +438,8 @@ public class UIController_map_4 : MonoBehaviour
         resourcesText.gameObject.SetActive(false);
         warningText.gameObject.SetActive(false);
 
-        speed1Button.gameObject.SetActive(false);
-        speed2Button.gameObject.SetActive(false);
-        speed3Button.gameObject.SetActive(false);
-        pauseButton.gameObject.SetActive(false);
+        if (speedToggleButton != null) speedToggleButton.gameObject.SetActive(false);
+        if (pauseButton != null) pauseButton.gameObject.SetActive(false);
     }
 
     private void ShowUI()
@@ -403,10 +448,8 @@ public class UIController_map_4 : MonoBehaviour
         livesText.gameObject.SetActive(true);
         resourcesText.gameObject.SetActive(true);
 
-        speed1Button.gameObject.SetActive(true);
-        speed2Button.gameObject.SetActive(true);
-        speed3Button.gameObject.SetActive(true);
-        pauseButton.gameObject.SetActive(true);
+        if (speedToggleButton != null) speedToggleButton.gameObject.SetActive(true);
+        if (pauseButton != null) pauseButton.gameObject.SetActive(true);
     }
 
     private void HidePanels()

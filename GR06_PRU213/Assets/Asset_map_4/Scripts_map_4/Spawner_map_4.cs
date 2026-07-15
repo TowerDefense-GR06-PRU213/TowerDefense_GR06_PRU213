@@ -110,8 +110,11 @@ public class Spawner_map_4 : MonoBehaviour
                 Debug.Log("_isEndlessMode");
             }
             WaveData_map_4 wave = CurrentWave;
-            _waveCounter++;
-            OnWaveChanged?.Invoke(_waveCounter);
+            
+            // ✅ FIX: Gửi wave text TRƯỚC KHI tăng counter
+            OnWaveChanged?.Invoke(_waveCounter + 1); // Hiển thị Wave 1, 2, 3...
+            
+            _waveCounter++; // Tăng counter để logic bên trong đúng
 
             Debug.Log($"[Spawner] 🚀 Bắt đầu Wave {_waveCounter}/{_wavesToWin}");
 
