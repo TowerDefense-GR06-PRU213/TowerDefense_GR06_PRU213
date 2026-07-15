@@ -273,8 +273,17 @@ public class UIController_Map5 : MonoBehaviour
 
     public void RestartLevel()
     {
-        LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
-
+        // FIX: Kiểm tra null trước khi sử dụng
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
+        }
+        else
+        {
+            // Fallback: Reload scene trực tiếp
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Debug.LogWarning("[UIController_Map5] LevelManager not found, reloading scene directly");
+        }
     }
 
     public void QuitGame()
@@ -303,7 +312,17 @@ public class UIController_Map5 : MonoBehaviour
     }
     private IEnumerator ShowObjective()
     {
-        objectiveText.text = $"Survive {LevelManager.Instance.CurrentLevel.wavesToWin} waves!";
+        // FIX: Kiểm tra null trước khi sử dụng
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            objectiveText.text = $"Survive {LevelManager.Instance.CurrentLevel.wavesToWin} waves!";
+        }
+        else
+        {
+            // Fallback: Dùng giá trị mặc định nếu không có LevelManager
+            objectiveText.text = $"Survive 5 waves!";
+            Debug.LogWarning("[UIController_Map5] LevelManager not found, using default objective");
+        }
 
         objectiveText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3f);

@@ -133,7 +133,14 @@ public class Spawner_Map5 : MonoBehaviour
         }
 
         // Vẫn giữ lại kiểm tra điều kiện thắng để đảm bảo game kết thúc chính xác
-        if (!_isSpawningGroup && _enemiesRemovedInWave >= _totalEnemiesInWave && _waveCounter >= LevelManager.Instance.CurrentLevel.wavesToWin && !_isEndlessMode)
+        // FIX: Kiểm tra null trước khi sử dụng
+        int wavesToWin = 5; // Default value
+        if (LevelManager.Instance != null && LevelManager.Instance.CurrentLevel != null)
+        {
+            wavesToWin = LevelManager.Instance.CurrentLevel.wavesToWin;
+        }
+        
+        if (!_isSpawningGroup && _enemiesRemovedInWave >= _totalEnemiesInWave && _waveCounter >= wavesToWin && !_isEndlessMode)
         {
             OnMissionComplete?.Invoke();
         }
@@ -240,12 +247,34 @@ public class Spawner_Map5 : MonoBehaviour
 
         if (_poolDictionary.TryGetValue(group.enemyType, out var pool))
         {
+            // ✅ FIX: Kiểm tra pool có null không
+            if (pool == null)
+            {
+                Debug.LogError($"ObjectPooler for {group.enemyType} is NULL! Check Inspector assignments in Spawner_Map5.");
+                return;
+            }
+
             GameObject spawnedObject = pool.GetPooledObject();
+
+            // ✅ FIX: Kiểm tra GetPooledObject() có trả về null không
+            if (spawnedObject == null)
+            {
+                Debug.LogError($"GetPooledObject() returned NULL for {group.enemyType}! Pool might be empty or not initialized.");
+                return;
+            }
 
             spawnedObject.transform.position = path.GetPosition(0);
 
             float healthMultiplier = 1f + (_waveCounter * 0.1f);
             Bongma enemy = spawnedObject.GetComponent<Bongma>();
+            
+            // ✅ FIX: Kiểm tra enemy component
+            if (enemy == null)
+            {
+                Debug.LogError($"Spawned object for {group.enemyType} does not have Bongma component!");
+                return;
+            }
+
             enemy.SetPath(path);
             enemy.Initialize(healthMultiplier);
 

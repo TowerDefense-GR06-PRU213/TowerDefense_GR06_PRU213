@@ -1,0 +1,46 @@
+===========================================
+  ✅ HOÀN TẤT: ĐÃ THÊM MAP 4 & MAP 5
+===========================================
+
+📁 ĐÃ COPY SCENE FILES:
+   ✅ Assets/Scene/Game_Map4.unity
+   ✅ Assets/Scene/Game_Map5.unity
+
+🔧 ĐÃ CẬP NHẬT BUILD SETTINGS:
+   ✅ Enabled Map 4 trong EditorBuildSettings
+   ✅ Enabled Map 5 trong EditorBuildSettings
+
+📦 ASSETS ĐÃ CÓ SẴN:
+   ✅ Asset_map_4/ (quái, hero, scripts, prefabs)
+   ✅ Asset_map_5/ (quái, hero, Ability System)
+
+---
+
+🎮 CÁCH MỞ MAP 4 & 5:
+
+1. Mở Unity Hub
+2. Mở project GR06_PRU213
+3. Trong Project panel:
+   - Double-click: Assets/Scene/Game_Map4.unity
+   - Hoặc: Assets/Scene/Game_Map5.unity
+4. Press Play để test
+
+---
+
+🧪 TEST NHANH:
+
+Map 4:
+- Press Play → Chọn hero → Đặt lên platform
+- Quái spawn → Hero bắn → Nhận gold
+- Click Fast-Forward (x2) để tăng tốc
+
+Map 5:
+- Giống Map 4 nhưng có Ability System
+- Quái có skill đặc biệt (dodge, rage, v.v.)
+- Fast-forward vẫn hoạt động với abilities
+
+---
+
+🚀 TẤT CẢ ĐÃ XONG! CHỈ CẦN MỞ UNITY VÀ CHƠI!
+
+Chi tiết đầy đủ xem file: MAP4_MAP5_SETUP_COMPLETE.md
