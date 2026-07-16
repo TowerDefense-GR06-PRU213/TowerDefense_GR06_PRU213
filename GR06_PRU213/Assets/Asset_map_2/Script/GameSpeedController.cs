@@ -16,6 +16,13 @@ public class GameSpeedController : MonoBehaviour
 
     void Start()
     {
+        // Check null trước khi gán sự kiện
+        if (speed05xButton == null || speed1xButton == null || speed2xButton == null)
+        {
+            Debug.LogError("[GameSpeedController] Một hoặc nhiều buttons chưa được assign trong Inspector!");
+            return;
+        }
+
         // Gán sự kiện bấm
         speed05xButton.onClick.AddListener(() => SetSpeed(0.5f, speed05xButton));
         speed1xButton.onClick.AddListener(() => SetSpeed(1f, speed1xButton));

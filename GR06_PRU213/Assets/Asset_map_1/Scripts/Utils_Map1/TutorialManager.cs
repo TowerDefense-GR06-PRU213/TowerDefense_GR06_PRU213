@@ -131,6 +131,9 @@ public class TutorialManager : MonoBehaviour
             tutorialPanel.SetActive(true);
             currentPageIndex = 0;
             DisplayCurrentPage();
+            
+            // Bring panel to front
+            tutorialPanel.transform.SetAsLastSibling();
         }
     }
 

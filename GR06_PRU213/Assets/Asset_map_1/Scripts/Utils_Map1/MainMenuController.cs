@@ -18,6 +18,12 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button muteButton;
     [SerializeField] private Color selectedButtonColor = Color.blue;
     [SerializeField] private Color normalButtonColor = Color.white;
+    
+    // Tutorial System
+    [SerializeField] private TutorialManager tutorialManager;
+    
+    // Level Selection Panel
+    [SerializeField] private GameObject levelSelectionPanel;
     // -------------------------
 
     void Start()
@@ -78,6 +84,31 @@ public class MainMenuController : MonoBehaviour
             {
                 muteButton.image.color = normalButtonColor;
             }
+        }
+    }
+
+    // ----- TUTORIAL FUNCTIONS -----
+    public void OpenTutorial()
+    {
+        if (tutorialManager != null)
+        {
+            tutorialManager.OpenTutorial();
+        }
+        else
+        {
+            Debug.LogWarning("[MainMenuController] TutorialManager not assigned!");
+        }
+    }
+
+    public void OpenLevelSelection()
+    {
+        if (levelSelectionPanel != null)
+        {
+            levelSelectionPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("[MainMenuController] Level Selection Panel not assigned!");
         }
     }
 }
